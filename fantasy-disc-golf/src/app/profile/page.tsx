@@ -1,28 +1,26 @@
 import Link from "next/link"
 
-async function getNotes() {
+async function getUsers() {
     const res = await fetch('http://127.0.0.1:8090/api/collections/userDetails/records?page=1&perPage=30')
-    
-    const data = await res.json()
-    console.log('got notes', data?.items);
-    
+    const data = await res.json()     
     return data?.items as any[]
 }
 
 export default async function NotesPage() {
-    const notes = await getNotes()
+    const users = await getUsers();
     return (
         <div>
-            <h1>No tits</h1>
-            {notes?.map((note) => {
-                return <Note key={note.id} note={note} />
+            <h1>Profile</h1>
+            {users?.map((user) => {
+                return <User key={user.id} user={user} />
             })}
         </div>
     )
 }
 
-function Note({ note }: any ) {    
-    const {id, title, content, created, username} = note || {}
+function User({ user }: any ) {    
+    const {id, title, content, created, username} = user || {}
+    
     return (
         <Link href={`/notes/${id}`}>
             <div>
